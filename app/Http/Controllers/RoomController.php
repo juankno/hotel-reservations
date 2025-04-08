@@ -33,7 +33,9 @@ class RoomController extends Controller
      */
     public function store(StoreRoomRequest $request)
     {
-        //
+        $room = $this->roomRepository->create($request->validated());
+
+        return new RoomResource($room);
     }
 
     /**
@@ -49,11 +51,15 @@ class RoomController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the room.
+     *
+     * This method updates the room based on the provided request data.
      */
     public function update(UpdateRoomRequest $request, Room $room)
     {
-        //
+        $room = $this->roomRepository->update($room->id, $request->validated());
+
+        return new RoomResource($room);
     }
 
     /**

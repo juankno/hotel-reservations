@@ -11,7 +11,7 @@ class UpdateRoomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'description' => 'sometimes|string|max:255',
+            'isAvailable' => 'sometimes|integer|in:0,1',
+            'roomTypeId' => 'required|integer|exists:App\Models\RoomType,id',
         ];
     }
 }

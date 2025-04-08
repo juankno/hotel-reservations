@@ -22,25 +22,50 @@ class RoomRepository implements RoomRepositoryInterface
             ->paginate(request('per_page', 10));
     }
 
-    public function find($id) : Room
+
+    /**
+     * Find a room by its ID.
+     *
+     * @param int $id
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Room
+     */
+    public function find($id): Room
     {
         return $this->room::with('roomType')->findOrFail($id);
     }
 
     public function create(array $data)
     {
-        return $this->room->create($data);
+        $room = $this->room->create([
+            'name' => $data['name'],
+            'description' => $data['description'],
+            'is_available' => $data['isAvailable'] ?? true,
+            'room_type_id' => $data['roomTypeId'],
+        ]);
+
+        return $room;
     }
 
-    public function update($id, array $data)
+    public function update(int $id, array $data)
     {
-        $model = $this->room->find($id);
-        return $model ? tap($model)->update($data) : false;
+        $room = $this->find($id);
+
+        $room->update([
+            'is_available' => $data['isAvailable'] ?? $room->is_available,
+            'room_type_id' => $data['roomTypeId'],
+            'description' => $data['description'] ?? $room->description,
+        ]);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
-        $model = $this->room->find($id);
-        return $model ? $model->delete() : false;
+        $room = $this->find($id);
+
+        if ($room->reservations()->exists()) {
+            throw new \Exception('Room cannot be deleted because it has reservations.');
+        }
+
+        $room->delete();
     }
 }
