@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rol;
+use App\Models\Role;
 use App\Http\Requests\StoreRolRequest;
 use App\Http\Requests\UpdateRolRequest;
 
-class RolController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class RolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Rol $rol)
+    public function show(Role $role)
     {
         //
     }
@@ -35,7 +35,7 @@ class RolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRolRequest $request, Rol $rol)
+    public function update(UpdateRolRequest $request, Role $role)
     {
         //
     }
@@ -43,7 +43,7 @@ class RolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rol $rol)
+    public function destroy(Role $role)
     {
         //
     }
