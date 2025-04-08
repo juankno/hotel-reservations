@@ -29,7 +29,9 @@ class RoomController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new room.
+     *
+     * This method is responsible for creating a new room based on the provided request data.
      */
     public function store(StoreRoomRequest $request)
     {
