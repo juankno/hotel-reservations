@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "943317f756ef3de05b2545df854a4a33",
+    "content-hash": "16490f7dd372f511b9e342be4802b43a",
     "packages": [
         {
             "name": "brick/math",
@@ -1129,6 +1129,57 @@
                 }
             ],
             "time": "2025-02-03T10:55:03+00:00"
+        },
+        {
+            "name": "juankno/laravel-repository",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/juankno/laravel-repository.git",
+                "reference": "bdb489444763212ef7ae0814a8a9892045c5e12a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/juankno/laravel-repository/zipball/bdb489444763212ef7ae0814a8a9892045c5e12a",
+                "reference": "bdb489444763212ef7ae0814a8a9892045c5e12a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Juankno\\Repository\\Providers\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Juankno\\Repository\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juankno",
+                    "email": "tu-email@example.com"
+                }
+            ],
+            "description": "This package simplifies working with the Repository Pattern in Laravel by automatically generating repository files, contracts, and bindings.",
+            "support": {
+                "issues": "https://github.com/juankno/laravel-repository/issues",
+                "source": "https://github.com/juankno/laravel-repository/tree/v1.0.3"
+            },
+            "time": "2025-03-16T14:45:19+00:00"
         },
         {
             "name": "laravel/framework",
