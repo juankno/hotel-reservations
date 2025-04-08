@@ -26,4 +26,27 @@ class Room extends Model
     {
         return $this->belongsTo(RoomType::class);
     }
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+
+        if (isset($filters['number'])) {
+            $number = str_replace([' ', 'H'], '', $filters['number']);
+            $query->where('name', $number);
+        }
+
+        if (isset($filters['type'])) {
+            $query->whereHas('roomType', function ($q) use ($filters) {
+                $q->where('id',  $filters['type']);
+            });
+        }
+
+        if (isset($filters['price'])) {
+            $query->whereHas('roomType', function ($q) use ($filters) {
+                $q->where('price_per_night', '<=', $filters['price']);
+            });
+        }
+
+        return $query;
+    }
 }

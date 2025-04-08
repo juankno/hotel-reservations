@@ -9,18 +9,22 @@ class RoomRepository implements RoomRepositoryInterface
 {
     protected $room;
 
-    public function __construct(Room $room) {
+    public function __construct(Room $room)
+    {
         $this->room = $room;
     }
 
-    public function all()
+    public function all(array $filters = []): \Illuminate\Pagination\LengthAwarePaginator
     {
-        return $this->room->all();
+        return $this->room::with('roomType')
+            ->where('is_available', $filters['status'] ?? true)
+            ->applyFilters($filters)
+            ->paginate(request('per_page', 10));
     }
 
-    public function find($id)
+    public function find($id) : Room
     {
-        return $this->room->find($id);
+        return $this->room::with('roomType')->findOrFail($id);
     }
 
     public function create(array $data)
