@@ -16,8 +16,13 @@ class RoomFactory extends Factory
      */
     public function definition(): array
     {
+
+        $room = $this->faker->unique()->numberBetween(1, 500);
+
         return [
-            //
+            'name' => 'H ' . $room,
+            'description' => "Habitación $room",
+            'room_type_id' => \App\Models\RoomType::inRandomOrder()->first()->id,
         ];
     }
 }
