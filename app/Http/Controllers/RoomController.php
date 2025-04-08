@@ -8,7 +8,7 @@ use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Repositories\Contracts\RoomRepositoryInterface;
-
+use Illuminate\Http\Response;
 
 class RoomController extends Controller
 {
@@ -55,18 +55,25 @@ class RoomController extends Controller
      *
      * This method updates the room based on the provided request data.
      */
-    public function update(UpdateRoomRequest $request, Room $room)
+    public function update(UpdateRoomRequest $request, int $roomId)
     {
-        $room = $this->roomRepository->update($room->id, $request->validated());
+        $room = $this->roomRepository->update($roomId, $request->validated());
 
         return new RoomResource($room);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a room.
+     *
+     * This method deletes a room based on the provided ID.
      */
-    public function destroy(Room $room)
+    public function destroy(int $roomId)
     {
-        //
+        $this->roomRepository->delete($roomId);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Room deleted successfully',
+        ], Response::HTTP_NO_CONTENT);
     }
 }

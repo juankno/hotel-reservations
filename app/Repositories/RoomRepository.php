@@ -44,18 +44,22 @@ class RoomRepository implements RoomRepositoryInterface
             'room_type_id' => $data['roomTypeId'],
         ]);
 
+        $room->load('roomType');
+
         return $room;
     }
 
-    public function update(int $id, array $data)
+    public function update(int $roomId, array $data)
     {
-        $room = $this->find($id);
+        $room = $this->find($roomId)->load('roomType');
 
         $room->update([
             'is_available' => $data['isAvailable'] ?? $room->is_available,
             'room_type_id' => $data['roomTypeId'],
             'description' => $data['description'] ?? $room->description,
         ]);
+
+        return $this->find($roomId);
     }
 
     public function delete(int $id)
