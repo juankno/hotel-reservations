@@ -135,7 +135,7 @@ class ReservationController extends Controller
      * @param  int  $roomId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroyByRoomId(int $roomId)
+    public function deleteByRoomId(int $roomId)
     {
         try {
             $deletedCount = $this->reservationRepository->deleteByRoomId($roomId);
