@@ -14,6 +14,12 @@ class CustomerRepository implements CustomerRepositoryInterface
         $this->customer = $customer;
     }
 
+    /**
+     * Retrieve all customers with optional filters.
+     *
+     * @param array $filters Filters to apply to the query.
+     * @return \Illuminate\Pagination\LengthAwarePaginator Paginated list of customers.
+     */
     public function all(array $filters = []): \Illuminate\Pagination\LengthAwarePaginator
     {
         return $this->customer::with('customerType')
@@ -21,11 +27,23 @@ class CustomerRepository implements CustomerRepositoryInterface
             ->paginate(request('per_page', 10));
     }
 
+    /**
+     * Find a customer by ID.
+     *
+     * @param int $id Customer ID.
+     * @return \App\Models\Customer The customer with related customer type.
+     */
     public function find($id)
     {
         return $this->customer->findOrFail($id)->load('customerType');
     }
 
+    /**
+     * Create a new customer.
+     *
+     * @param array $data Data for creating the customer.
+     * @return \App\Models\Customer The newly created customer with related customer type.
+     */
     public function create(array $data)
     {
         $customer = $this->customer->create([
@@ -41,6 +59,13 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $customer->load('customerType');
     }
 
+    /**
+     * Update an existing customer.
+     *
+     * @param int $id Customer ID.
+     * @param array $data Data for updating the customer.
+     * @return \App\Models\Customer The updated customer with related customer type.
+     */
     public function update($id, array $data)
     {
         $customer = $this->find($id);
@@ -58,6 +83,13 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $customer->load('customerType');
     }
 
+    /**
+     * Delete a customer by ID.
+     *
+     * @param int $id Customer ID.
+     * @throws \Exception If the customer has reservations.
+     * @return bool True if the customer was deleted, false otherwise.
+     */
     public function delete($id)
     {
         $customer = $this->find($id);

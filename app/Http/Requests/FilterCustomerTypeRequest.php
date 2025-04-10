@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCustomerTypeRequest extends FormRequest
+class FilterCustomerTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class UpdateCustomerTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:App\Models\CustomerType,name,' . $this->route('customer_type'),
-            'description' => 'nullable|string|max:255',
-            'discountPercentage' => 'required|numeric|min:0|max:100',
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string|max:255',
+            'discountPercentage' => 'sometimes|numeric|min:0|max:100',
         ];
     }
 }

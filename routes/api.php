@@ -12,5 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResources([
         'rooms' => App\Http\Controllers\RoomController::class,
         'customers' => App\Http\Controllers\CustomerController::class,
+        'customer-types' => App\Http\Controllers\CustomerTypeController::class,
+        'reservations' => App\Http\Controllers\ReservationController::class,
     ]);
 });

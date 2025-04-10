@@ -17,10 +17,12 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\CustomerRepositoryInterface::class,
             \App\Repositories\CustomerRepository::class
         );
-        // $this->app->bind(
-        //     \App\Repositories\Contracts\CustomerTypeRepositoryInterface::class,
-        //     \App\Repositories\CustomerTypeRepository::class
-        // );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\CustomerTypeRepositoryInterface::class,
+            \App\Repositories\CustomerTypeRepository::class
+        );
+
         $this->app->bind(
             \App\Repositories\Contracts\ReservationRepositoryInterface::class,
             \App\Repositories\ReservationRepository::class

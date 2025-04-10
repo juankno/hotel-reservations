@@ -20,4 +20,22 @@ class CustomerType extends Model
     {
         return $this->hasMany(Customer::class);
     }
+
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (isset($filters['description'])) {
+            $query->where('description', 'like', '%' . $filters['description'] . '%');
+        }
+
+        if (isset($filters['discountPercentage'])) {
+            $query->where('discount_percentage', '<=', $filters['discountPercentage']);
+        }
+
+        return $query;
+    }
 }
