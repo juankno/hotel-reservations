@@ -7,6 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Documentación
+
+Puedes encontrar la documentación de la API en el siguiente enlace:
+[Documentación de la API](http://localhost:8000/docs/api)
+
 # Hotel Reservations
 
 Hotel Reservations es una aplicación para gestionar reservas de hotel de manera eficiente y sencilla.
