@@ -27,6 +27,7 @@ class FilterCustomerRequest extends FormRequest
             'email' => 'sometimes|email|max:255',
             'phone' => 'sometimes|numeric',
             'rut' => 'sometimes|string|max:20',
+            'customerType' => 'sometimes|exists:App\Models\CustomerType,id',
         ];
     }
 }

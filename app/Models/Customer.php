@@ -54,6 +54,10 @@ class Customer extends Model
             $query->where('rut', 'like', '%' . $filters['rut'] . '%');
         }
 
+        if (isset($filters['customerType'])) {
+            $query->where('customer_type_id', $filters['customerType']);
+        }
+
         return $query;
     }
 
