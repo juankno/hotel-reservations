@@ -37,10 +37,17 @@ class ReservationController extends Controller
      */
     public function store(StoreReservationRequest $request)
     {
-        $reservation = $this->reservationRepository->create($request->validated());
-        return (new ReservationResource($reservation))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        try {
+            $reservation = $this->reservationRepository->create($request->validated());
+            return (new ReservationResource($reservation))
+                ->response()
+                ->setStatusCode(Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

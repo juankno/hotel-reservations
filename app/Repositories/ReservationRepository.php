@@ -2,9 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Repositories\Contracts\ReservationRepositoryInterface;
 use App\Models\Reservation;
+use App\Models\Room;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Carbon;
 
 class ReservationRepository implements ReservationRepositoryInterface
 {
@@ -53,7 +56,44 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function create(array $data)
     {
-        return $this->reservation->create($data);
+        $overlapping = $this->reservation::where('room_id', $data['roomId'])
+            ->whereIn('reservation_status_id', [2, 3])
+            ->where(function ($query) use ($data) {
+                $query->whereBetween('check_in_date', [$data['checkInDate'], $data['checkOutDate']])
+                    ->orWhereBetween('check_out_date', [$data['checkInDate'], $data['checkOutDate']])
+                    ->orWhere(function ($query) use ($data) {
+                        $query->where('check_in_date', '<=', $data['checkInDate'])
+                            ->where('check_out_date', '>=', $data['checkOutDate']);
+                    });
+            })
+            ->exists();
+
+        if ($overlapping) {
+            throw new \Exception('La habitación ya está reservada para las fechas seleccionadas.');
+        }
+
+        $room = Room::findOrFail($data['roomId'])->load('roomType');
+        $customer = Customer::findOrFail($data['customerId'])->load('customerType');
+
+        $nights = Carbon::parse($data['checkInDate'])->diffInDays(Carbon::parse($data['checkOutDate']));
+        $priceNight = $room->roomType->price_per_night;
+
+        $discount = $customer->customerType->discount_percentage ?? 0;
+        $totalPrice = ($priceNight * $nights) - (($priceNight * $nights) * ($discount / 100));
+
+        $reservation = $this->reservation->create([
+            'room_id' => $data['roomId'],
+            'customer_id' => $data['customerId'],
+            'check_in_date' => $data['checkInDate'],
+            'check_out_date' => $data['checkOutDate'],
+            'total_price' => $totalPrice,
+            'reservation_status_id' => 1,
+            'number_of_guests' => $data['numberOfGuests'],
+        ]);
+
+        $reservation->load(['customer.customerType', 'room.roomType', 'reservationStatus']);
+
+        return $reservation;
     }
 
     /**

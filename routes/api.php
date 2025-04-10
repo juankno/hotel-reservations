@@ -12,6 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('reservations', App\Http\Controllers\ReservationController::class)->only([
         'index',
         'show',
+        'store',
     ]);
 
     Route::apiResources([
