@@ -22,13 +22,11 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerId' => 'required|exists:customers,id',
-            'roomId' => 'required|exists:rooms,id',
+            'customerId' => 'required|exists:App\Models\Customer,id',
+            'roomId' => 'required|exists:App\Models\Room,id',
             'checkInDate' => 'required|date|after_or_equal:today',
             'checkOutDate' => 'required|date|after:check_in_date',
             'numberOfGuests' => 'required|integer|min:1',
-            'totalPrice' => 'required|numeric|min:0',
-            'reservationStatusId' => 'required|exists:reservation_statuses,id',
         ];
     }
 
@@ -53,11 +51,6 @@ class StoreReservationRequest extends FormRequest
             'numberOfGuests.required' => 'El número de huéspedes es obligatorio',
             'numberOfGuests.integer' => 'El número de huéspedes debe ser un número entero',
             'numberOfGuests.min' => 'El número de huéspedes debe ser al menos 1',
-            'totalPrice.required' => 'El precio total es obligatorio',
-            'totalPrice.numeric' => 'El precio total debe ser un número',
-            'totalPrice.min' => 'El precio total no puede ser negativo',
-            'reservationStatusId.required' => 'El estado de la reservación es obligatorio',
-            'reservationStatusId.exists' => 'El estado de reservación seleccionado no existe',
         ];
     }
 }
