@@ -23,5 +23,7 @@ class CustomerSeeder extends Seeder
             'rut'  => '12345678-9',
             'customer_type_id'  => 1,
         ]);
+
+        Customer::factory(10)->create();
     }
 }
