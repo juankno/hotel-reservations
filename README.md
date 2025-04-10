@@ -7,76 +7,84 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Documentación
-
-Puedes encontrar la documentación de la API en el siguiente enlace:
-[Documentación de la API](http://localhost:8000/docs/api)
-
 # Hotel Reservations
 
 Hotel Reservations es una aplicación para gestionar reservas de hotel de manera eficiente y sencilla.
 
 ## Requisitos del sistema
 
-- PHP >= 8.0
-- Composer
-- MySQL
-- Node.js y npm
+-   PHP >= 8.0
+-   Composer
+-   MySQL
+-   Node.js y npm
 
 ## Instalación
 
 Sigue los pasos a continuación para configurar el proyecto en tu entorno local:
 
 1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/juankno/hotel-reservations.git
-   cd hotel-reservations
-   ```
+
+    ```bash
+    git clone https://github.com/juankno/hotel-reservations.git
+    cd hotel-reservations
+    ```
 
 2. Instala las dependencias de PHP:
-   ```bash
-   composer install
-   ```
+
+    ```bash
+    composer install
+    ```
 
 3. Instala las dependencias de Node.js:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 4. Copia el archivo de entorno y configura las variables necesarias:
-   ```bash
-   cp .env.example .env
-   ```
 
-   Edita el archivo `.env` para configurar la conexión a la base de datos y otros parámetros.
+    ```bash
+    cp .env.example .env
+    ```
+
+    Edita el archivo `.env` para configurar la conexión a la base de datos y otros parámetros.
 
 5. Genera la clave de la aplicación:
-   ```bash
-   php artisan key:generate
-   ```
+
+    ```bash
+    php artisan key:generate
+    ```
 
 6. Ejecuta las migraciones y seeders para configurar la base de datos:
-   ```bash
-   php artisan migrate --seed
-   ```
+
+    ```bash
+    php artisan migrate --seed
+    ```
 
 7. Compila los assets del frontend:
-   ```bash
-   npm run dev
-   ```
+
+    ```bash
+    npm run dev
+    ```
 
 8. Inicia el servidor de desarrollo:
-   ```bash
-   php artisan serve
-   ```
 
-   La aplicación estará disponible en [http://localhost:8000](http://localhost:8000).
+    ```bash
+    php artisan serve
+    ```
+
+    La aplicación estará disponible en [http://localhost:8000](http://localhost:8000).
+
+## Documentación
+
+Puedes encontrar la documentación de la API en el siguiente enlace:
+[Documentación de la API](http://localhost:8000/docs/api)
 
 ## Características
 
-- Gestión de reservas de habitaciones.
-- Configuración de usuarios y roles.
-- Reportes de ocupación y disponibilidad.
+-   Gestión de reservas de habitaciones.
+-   Configuración de usuarios y roles.
+-   Reportes de ocupación y disponibilidad.
 
 ## Contribuciones
 
