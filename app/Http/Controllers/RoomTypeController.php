@@ -52,12 +52,19 @@ class RoomTypeController extends Controller
      * Muestra detalles de un tipo de habitación específico.
      *
      * @param  int  $id
-     * @return \App\Http\Resources\RoomTypeResource
+     * @return \App\Http\Resources\RoomTypeResource|\Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $roomType = $this->roomTypeRepository->find($id);
-        return new RoomTypeResource($roomType);
+        try {
+            $roomType = $this->roomTypeRepository->find($id);
+            return new RoomTypeResource($roomType);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tipo de habitación no encontrado',
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**
@@ -67,12 +74,24 @@ class RoomTypeController extends Controller
      *
      * @param  \App\Http\Requests\UpdateRoomTypeRequest  $request
      * @param  int  $id
-     * @return \App\Http\Resources\RoomTypeResource
+     * @return \App\Http\Resources\RoomTypeResource|\Illuminate\Http\JsonResponse
      */
     public function update(UpdateRoomTypeRequest $request, $id)
     {
-        $roomType = $this->roomTypeRepository->update($id, $request->validated());
-        return new RoomTypeResource($roomType);
+        try {
+            $roomType = $this->roomTypeRepository->update($id, $request->validated());
+            return new RoomTypeResource($roomType);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tipo de habitación no encontrado',
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

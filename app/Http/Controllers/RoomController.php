@@ -51,13 +51,19 @@ class RoomController extends Controller
      * Muestra detalles de una habitación específica por su ID.
      *
      * @param int $roomId
-     * @return \App\Http\Resources\RoomResource
+     * @return \App\Http\Resources\RoomResource|\Illuminate\Http\JsonResponse
      */
     public function show(int $roomId)
     {
-        $room = $this->roomRepository->find($roomId);
-
-        return new RoomResource($room);
+        try {
+            $room = $this->roomRepository->find($roomId);
+            return new RoomResource($room);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Habitación no encontrada',
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**
@@ -67,13 +73,24 @@ class RoomController extends Controller
      *
      * @param \App\Http\Requests\UpdateRoomRequest $request
      * @param int $roomId
-     * @return \App\Http\Resources\RoomResource
+     * @return \App\Http\Resources\RoomResource|\Illuminate\Http\JsonResponse
      */
     public function update(UpdateRoomRequest $request, int $roomId)
     {
-        $room = $this->roomRepository->update($roomId, $request->validated());
-
-        return new RoomResource($room);
+        try {
+            $room = $this->roomRepository->update($roomId, $request->validated());
+            return new RoomResource($room);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Habitación no encontrada',
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -86,11 +103,18 @@ class RoomController extends Controller
      */
     public function destroy(int $roomId)
     {
-        $this->roomRepository->delete($roomId);
+        try {
+            $this->roomRepository->delete($roomId);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Room deleted successfully',
-        ], Response::HTTP_NO_CONTENT);
+            return response()->json([
+                'success' => true,
+                'message' => 'Habitación eliminada exitosamente',
+            ], Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 }
