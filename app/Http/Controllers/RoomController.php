@@ -16,9 +16,12 @@ class RoomController extends Controller
 
 
     /**
-     * List all rooms.
+     * Listar habitaciones
      *
-     * This method is responsible for retrieving all rooms and filtering them based on the provided query parameters.
+     * Recupera todas las habitaciones y las filtra según los parámetros de consulta proporcionados.
+     *
+     * @param \App\Http\Requests\FilterRoomRequest $request
+     * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
     public function index(FilterRoomRequest $request)
     {
@@ -28,9 +31,12 @@ class RoomController extends Controller
     }
 
     /**
-     * Create a new room.
+     * Crear habitación
      *
-     * This method is responsible for creating a new room based on the provided request data.
+     * Registra una nueva habitación en base a los datos proporcionados.
+     *
+     * @param \App\Http\Requests\StoreRoomRequest $request
+     * @return \App\Http\Resources\RoomResource
      */
     public function store(StoreRoomRequest $request)
     {
@@ -40,9 +46,12 @@ class RoomController extends Controller
     }
 
     /**
-     * Show the specified room.
+     * Ver habitación
      *
-     * This method retrieves a specific room by its ID and returns its details.
+     * Muestra detalles de una habitación específica por su ID.
+     *
+     * @param int $roomId
+     * @return \App\Http\Resources\RoomResource
      */
     public function show(int $roomId)
     {
@@ -52,9 +61,13 @@ class RoomController extends Controller
     }
 
     /**
-     * Update the room.
+     * Actualizar habitación
      *
-     * This method updates the room based on the provided request data.
+     * Modifica los detalles de una habitación existente.
+     *
+     * @param \App\Http\Requests\UpdateRoomRequest $request
+     * @param int $roomId
+     * @return \App\Http\Resources\RoomResource
      */
     public function update(UpdateRoomRequest $request, int $roomId)
     {
@@ -64,9 +77,12 @@ class RoomController extends Controller
     }
 
     /**
-     * Remove a room.
+     * Eliminar habitación
      *
-     * This method deletes a room based on the provided ID.
+     * Elimina una habitación específica por su ID.
+     *
+     * @param int $roomId
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $roomId)
     {

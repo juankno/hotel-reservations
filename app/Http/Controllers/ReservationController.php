@@ -14,9 +14,9 @@ class ReservationController extends Controller
     public function __construct(protected ReservationRepositoryInterface $reservationRepository) {}
 
     /**
-     * Display a listing of the resource.
+     * Listar reservaciones
      *
-     * Retrieves a collection of reservations.
+     * Recupera una colección de todas las reservaciones disponibles.
      *
      * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
@@ -27,9 +27,9 @@ class ReservationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear reservación
      *
-     * Stores a new reservation in the database.
+     * Registra una nueva reservación en la base de datos.
      *
      * @param  \App\Http\Requests\StoreReservationRequest  $request
      * @return \App\Http\Resources\ReservationResource
@@ -43,9 +43,9 @@ class ReservationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Ver reservación
      *
-     * Displays details of a specific reservation.
+     * Muestra detalles de una reservación específica.
      *
      * @param  int  $id
      * @return \App\Http\Resources\ReservationResource|\Illuminate\Http\JsonResponse
@@ -64,9 +64,9 @@ class ReservationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar reservación
      *
-     * Modifies details of an existing reservation.
+     * Modifica los detalles de una reservación existente.
      *
      * @param  \App\Http\Requests\UpdateReservationRequest  $request
      * @param  int  $id
@@ -86,9 +86,9 @@ class ReservationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar reservación
      *
-     * Removes a reservation from the database.
+     * Elimina una reservación de la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse

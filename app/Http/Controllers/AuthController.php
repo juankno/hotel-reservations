@@ -14,11 +14,12 @@ class AuthController extends Controller
 {
 
     /**
+     * Iniciar sesión
      *
-     * Login user
+     * Permite a los usuarios autenticarse en la aplicación. Requiere un correo y contraseña válidos.
      *
-     * This endpoint allows users to log in to the application. It requires a valid email and password.
-     *
+     * @param \App\Http\Requests\LoginUserRequest $request
+     * @return \App\Http\Resources\UserResource
      * @unauthenticated
      */
     public function login(LoginUserRequest $request)
@@ -39,9 +40,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout user
+     * Cerrar sesión
      *
-     * This endpoint allows users to log out of the application. It requires a valid authentication token.
+     * Permite a los usuarios cerrar sesión en la aplicación. Requiere un token de autenticación válido.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
@@ -55,10 +59,12 @@ class AuthController extends Controller
 
 
     /**
-     * Get authenticated user
+     * Obtener usuario autenticado
      *
-     * This endpoint returns the authenticated user's information. It requires a valid authentication token.
+     * Devuelve la información del usuario autenticado. Requiere un token de autenticación válido.
      *
+     * @param \Illuminate\Http\Request $request
+     * @return \App\Http\Resources\UserResource
      */
     public function user(Request $request)
     {

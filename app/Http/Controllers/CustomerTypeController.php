@@ -19,10 +19,11 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * List Customer Types
+     * Listar tipos de cliente
      *
-     * Retrieves a list of all customer types.
+     * Recupera una colección de todos los tipos de cliente disponibles.
      *
+     * @param \App\Http\Requests\FilterCustomerTypeRequest $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(FilterCustomerTypeRequest $request)
@@ -32,9 +33,9 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * Create Customer Type
+     * Crear tipo de cliente
      *
-     * Stores a new customer type in the database.
+     * Registra un nuevo tipo de cliente en la base de datos.
      *
      * @param  \App\Http\Requests\StoreCustomerTypeRequest  $request
      * @return \App\Http\Resources\CustomerTypeResource
@@ -46,9 +47,9 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * Show Customer Type
+     * Ver tipo de cliente
      *
-     * Displays details of a specific customer type.
+     * Muestra detalles de un tipo de cliente específico.
      *
      * @param  int  $id
      * @return \App\Http\Resources\CustomerTypeResource
@@ -60,9 +61,9 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * Update Customer Type
+     * Actualizar tipo de cliente
      *
-     * Updates the details of an existing customer type.
+     * Modifica los detalles de un tipo de cliente existente.
      *
      * @param  \App\Http\Requests\UpdateCustomerTypeRequest  $request
      * @param  int  $id
@@ -75,9 +76,9 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * Delete Customer Type
+     * Eliminar tipo de cliente
      *
-     * Removes a customer type from the database.
+     * Elimina un tipo de cliente de la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse

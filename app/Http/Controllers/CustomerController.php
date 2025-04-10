@@ -14,10 +14,11 @@ class CustomerController extends Controller
     public function __construct(protected CustomerRepositoryInterface $customerRepository) {}
 
     /**
-     * List all customers.
+     * Listar clientes
      *
-     * Retrieves a collection of customers.
+     * Recupera una colección de todos los clientes disponibles.
      *
+     * @param \App\Http\Requests\FilterCustomerRequest $request
      * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
     public function index(FilterCustomerRequest $request)
@@ -27,9 +28,9 @@ class CustomerController extends Controller
     }
 
     /**
-     * Create a customer.
+     * Crear cliente
      *
-     * Stores a new customer in the database.
+     * Registra un nuevo cliente en la base de datos.
      *
      * @param  \App\Http\Requests\StoreCustomerRequest  $request
      * @return \App\Http\Resources\CustomerResource
@@ -41,9 +42,9 @@ class CustomerController extends Controller
     }
 
     /**
-     * Show a customer.
+     * Ver cliente
      *
-     * Displays details of a specific customer.
+     * Muestra detalles de un cliente específico.
      *
      * @param  int  $id
      * @return \App\Http\Resources\CustomerResource
@@ -55,9 +56,9 @@ class CustomerController extends Controller
     }
 
     /**
-     * Update a customer.
+     * Actualizar cliente
      *
-     * Modifies details of an existing customer.
+     * Modifica los detalles de un cliente existente.
      *
      * @param  \App\Http\Requests\UpdateCustomerRequest  $request
      * @param  int  $id
@@ -70,9 +71,9 @@ class CustomerController extends Controller
     }
 
     /**
-     * Delete a customer.
+     * Eliminar cliente
      *
-     * Removes a customer from the database.
+     * Elimina un cliente de la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse

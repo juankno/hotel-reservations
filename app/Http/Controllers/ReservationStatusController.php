@@ -9,7 +9,11 @@ use App\Http\Requests\UpdateReservationStatusRequest;
 class ReservationStatusController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar estados de reservación
+     *
+     * Recupera una colección de todos los estados de reservación disponibles.
+     *
+     * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
     public function index()
     {
@@ -17,7 +21,12 @@ class ReservationStatusController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear estado de reservación
+     *
+     * Registra un nuevo estado de reservación en la base de datos.
+     *
+     * @param  \App\Http\Requests\StoreReservationStatusRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreReservationStatusRequest $request)
     {
@@ -25,7 +34,12 @@ class ReservationStatusController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Ver estado de reservación
+     *
+     * Muestra detalles de un estado de reservación específico.
+     *
+     * @param  \App\Models\ReservationStatus  $reservationStatus
+     * @return \Illuminate\Http\Response
      */
     public function show(ReservationStatus $reservationStatus)
     {
@@ -33,7 +47,13 @@ class ReservationStatusController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar estado de reservación
+     *
+     * Modifica los detalles de un estado de reservación existente.
+     *
+     * @param  \App\Http\Requests\UpdateReservationStatusRequest  $request
+     * @param  \App\Models\ReservationStatus  $reservationStatus
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateReservationStatusRequest $request, ReservationStatus $reservationStatus)
     {
@@ -41,7 +61,12 @@ class ReservationStatusController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar estado de reservación
+     *
+     * Elimina un estado de reservación de la base de datos.
+     *
+     * @param  \App\Models\ReservationStatus  $reservationStatus
+     * @return \Illuminate\Http\Response
      */
     public function destroy(ReservationStatus $reservationStatus)
     {

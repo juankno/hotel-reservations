@@ -9,7 +9,11 @@ use App\Http\Requests\UpdateRolRequest;
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar roles
+     *
+     * Recupera una colección de todos los roles disponibles.
+     *
+     * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
     public function index()
     {
@@ -17,7 +21,12 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear rol
+     *
+     * Registra un nuevo rol en la base de datos.
+     *
+     * @param  \App\Http\Requests\StoreRolRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreRolRequest $request)
     {
@@ -25,7 +34,12 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Ver rol
+     *
+     * Muestra detalles de un rol específico.
+     *
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
     {
@@ -33,7 +47,13 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar rol
+     *
+     * Modifica los detalles de un rol existente.
+     *
+     * @param  \App\Http\Requests\UpdateRolRequest  $request
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateRolRequest $request, Role $role)
     {
@@ -41,7 +61,12 @@ class RoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar rol
+     *
+     * Elimina un rol de la base de datos.
+     *
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
     {

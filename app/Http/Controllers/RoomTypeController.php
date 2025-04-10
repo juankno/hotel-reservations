@@ -9,7 +9,11 @@ use App\Http\Requests\UpdateRoomTypeRequest;
 class RoomTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listar tipos de habitación
+     *
+     * Recupera una colección de todos los tipos de habitación disponibles.
+     *
+     * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
     public function index()
     {
@@ -17,7 +21,12 @@ class RoomTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear tipo de habitación
+     *
+     * Registra un nuevo tipo de habitación en la base de datos.
+     *
+     * @param  \App\Http\Requests\StoreRoomTypeRequest  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreRoomTypeRequest $request)
     {
@@ -25,7 +34,12 @@ class RoomTypeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Ver tipo de habitación
+     *
+     * Muestra detalles de un tipo de habitación específico.
+     *
+     * @param  \App\Models\RoomType  $roomType
+     * @return \Illuminate\Http\Response
      */
     public function show(RoomType $roomType)
     {
@@ -33,7 +47,13 @@ class RoomTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar tipo de habitación
+     *
+     * Modifica los detalles de un tipo de habitación existente.
+     *
+     * @param  \App\Http\Requests\UpdateRoomTypeRequest  $request
+     * @param  \App\Models\RoomType  $roomType
+     * @return \Illuminate\Http\Response
      */
     public function update(UpdateRoomTypeRequest $request, RoomType $roomType)
     {
@@ -41,7 +61,12 @@ class RoomTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar tipo de habitación
+     *
+     * Elimina un tipo de habitación de la base de datos.
+     *
+     * @param  \App\Models\RoomType  $roomType
+     * @return \Illuminate\Http\Response
      */
     public function destroy(RoomType $roomType)
     {
