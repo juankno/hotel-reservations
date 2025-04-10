@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterReservationRequest;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Resources\ReservationResource;
@@ -20,9 +21,9 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
-    public function index()
+    public function index(FilterReservationRequest $request)
     {
-        $reservations = $this->reservationRepository->all();
+        $reservations = $this->reservationRepository->all($request->validated());
         return ReservationResource::collection($reservations);
     }
 

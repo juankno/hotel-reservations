@@ -45,12 +45,12 @@ class Reservation extends Model
 
     public function scopeApplyFilters($query, array $filters)
     {
-        if (isset($filters['customerId'])) {
-            $query->where('customer_id', $filters['customerId']);
+        if (isset($filters['customer'])) {
+            $query->where('customer_id', $filters['customer']);
         }
 
-        if (isset($filters['roomId'])) {
-            $query->where('room_id', $filters['roomId']);
+        if (isset($filters['room'])) {
+            $query->where('room_id', $filters['room']);
         }
 
         if (isset($filters['checkInDate'])) {
@@ -59,6 +59,14 @@ class Reservation extends Model
 
         if (isset($filters['checkOutDate'])) {
             $query->whereDate('check_out_date', $filters['checkOutDate']);
+        }
+
+        if (isset($filters['numberOfGuests'])) {
+            $query->where('number_of_guests', $filters['numberOfGuests']);
+        }
+
+        if (isset($filters['reservationStatus'])) {
+            $query->where('reservation_status_id', $filters['reservationStatus']);
         }
 
         return $query;
