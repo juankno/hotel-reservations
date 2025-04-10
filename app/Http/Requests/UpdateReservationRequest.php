@@ -22,12 +22,12 @@ class UpdateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerId' => 'sometimes|exists:customers,id',
-            'roomId' => 'sometimes|exists:rooms,id',
-            'checkInDate' => 'sometimes|date',
-            'checkOutDate' => 'sometimes|date|after:check_in_date',
-            'numberOfGuests' => 'sometimes|integer|min:1',
-            'reservationStatusId' => 'sometimes|exists:reservation_statuses,id',
+            'customer' => 'required|integer|exists:App\Models\Customer,id',
+            'room' => 'required|integer|exists:App\Models\Room,id',
+            'checkInDate' => 'required|date|date_format:Y-m-d',
+            'checkOutDate' => 'required|date|after:check_in_date|date_format:Y-m-d',
+            'numberOfGuests' => 'required|integer|min:1',
+            'reservationStatus' => 'sometimes|integer|exists:App\Models\ReservationStatus,id',
         ];
     }
 
@@ -39,14 +39,14 @@ class UpdateReservationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'customerId.exists' => 'El cliente seleccionado no existe',
-            'roomId.exists' => 'La habitación seleccionada no existe',
+            'customer.exists' => 'El cliente seleccionado no existe',
+            'room.exists' => 'La habitación seleccionada no existe',
             'checkInDate.date' => 'La fecha de entrada debe ser una fecha válida',
             'checkOutDate.date' => 'La fecha de salida debe ser una fecha válida',
             'checkOutDate.after' => 'La fecha de salida debe ser posterior a la fecha de entrada',
             'numberOfGuests.integer' => 'El número de huéspedes debe ser un número entero',
             'numberOfGuests.min' => 'El número de huéspedes debe ser al menos 1',
-            'reservationStatusId.exists' => 'El estado de reservación seleccionado no existe',
+            'reservationStatus.exists' => 'El estado de reservación seleccionado no existe',
         ];
     }
 }

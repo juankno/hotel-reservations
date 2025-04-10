@@ -90,6 +90,11 @@ class ReservationController extends Controller
                 'success' => false,
                 'message' => 'Reservación no encontrada',
             ], Response::HTTP_NOT_FOUND);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -114,6 +119,11 @@ class ReservationController extends Controller
                 'success' => false,
                 'message' => 'Reservación no encontrada',
             ], Response::HTTP_NOT_FOUND);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 }

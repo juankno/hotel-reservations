@@ -56,7 +56,7 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function create(array $data)
     {
-        $overlapping = $this->reservation::where('room_id', $data['roomId'])
+        $overlapping = $this->reservation::where('room_id', $data['room'])
             ->whereIn('reservation_status_id', [2, 3])
             ->where(function ($query) use ($data) {
                 $query->whereBetween('check_in_date', [$data['checkInDate'], $data['checkOutDate']])
@@ -72,8 +72,8 @@ class ReservationRepository implements ReservationRepositoryInterface
             throw new \Exception('La habitación ya está reservada para las fechas seleccionadas.');
         }
 
-        $room = Room::findOrFail($data['roomId'])->load('roomType');
-        $customer = Customer::findOrFail($data['customerId'])->load('customerType');
+        $room = Room::findOrFail($data['room'])->load('roomType');
+        $customer = Customer::findOrFail($data['customer'])->load('customerType');
 
         $nights = Carbon::parse($data['checkInDate'])->diffInDays(Carbon::parse($data['checkOutDate']));
         $priceNight = $room->roomType->price_per_night;
@@ -82,8 +82,8 @@ class ReservationRepository implements ReservationRepositoryInterface
         $totalPrice = ($priceNight * $nights) - (($priceNight * $nights) * ($discount / 100));
 
         $reservation = $this->reservation->create([
-            'room_id' => $data['roomId'],
-            'customer_id' => $data['customerId'],
+            'room_id' => $data['room'],
+            'customer_id' => $data['customer'],
             'check_in_date' => $data['checkInDate'],
             'check_out_date' => $data['checkOutDate'],
             'total_price' => $totalPrice,
@@ -106,14 +106,53 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $model = $this->reservation->find($id);
+        $reservation = $this->reservation->find($id);
 
-        if (!$model) {
-            throw new ModelNotFoundException("Reservation with ID {$id} not found");
+        if (!$reservation) {
+            throw new ModelNotFoundException("La reserva con ID {$id} no fue encontrada");
         }
 
-        $model->update($data);
-        return $model->fresh(['customer.customerType', 'room.roomType', 'reservationStatus']);
+        $roomIsChanged = (int) $reservation->room_id !== (int) $data['room'];
+        $datesAreChanged = $reservation->check_in_date !== $data['checkInDate'] || $reservation->check_out_date !== $data['checkOutDate'];
+
+        if ($roomIsChanged || $datesAreChanged) {
+            $overlapping = $this->reservation::where('room_id', $data['room'])
+                ->where('id', '!=', $reservation->id)
+                ->whereIn('reservation_status_id', [2, 3])
+                ->where(function ($query) use ($data) {
+                    $query->whereBetween('check_in_date', [$data['checkInDate'], $data['checkOutDate']])
+                        ->orWhereBetween('check_out_date', [$data['checkInDate'], $data['checkOutDate']])
+                        ->orWhere(function ($query) use ($data) {
+                            $query->where('check_in_date', '<=', $data['checkInDate'])
+                                ->where('check_out_date', '>=', $data['checkOutDate']);
+                        });
+                })
+                ->exists();
+
+            if ($overlapping) {
+                throw new \Exception('La habitación ya está reservada para las fechas seleccionadas.');
+            }
+        }
+
+        $room = Room::findOrFail($data['room'])->load('roomType');
+        $customer = Customer::findOrFail($data['customer'])->load('customerType');
+
+        $nights = Carbon::parse($data['checkInDate'])->diffInDays(Carbon::parse($data['checkOutDate']));
+        $priceNight = $room->roomType->price_per_night;
+        $discount = $customer->customerType->discount_percentage ?? 0;
+        $totalPrice = ($priceNight * $nights) - (($priceNight * $nights) * ($discount / 100));
+
+        $reservation->update([
+            'room_id' => $data['room'],
+            'customer_id' => $data['customer'],
+            'check_in_date' => $data['checkInDate'],
+            'check_out_date' => $data['checkOutDate'],
+            'total_price' => $totalPrice,
+            'reservation_status_id' => $data['reservationStatus'] ?? $reservation->reservation_status_id,
+            'number_of_guests' => $data['numberOfGuests'],
+        ]);
+
+        return $reservation->fresh(['customer.customerType', 'room.roomType', 'reservationStatus']);
     }
 
     /**

@@ -22,8 +22,8 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerId' => 'required|exists:App\Models\Customer,id',
-            'roomId' => 'required|exists:App\Models\Room,id',
+            'customer' => 'required|exists:App\Models\Customer,id',
+            'room' => 'required|exists:App\Models\Room,id',
             'checkInDate' => 'required|date|date_format:Y-m-d|after_or_equal:today',
             'checkOutDate' => 'required|date|date_format:Y-m-d|after:check_in_date',
             'numberOfGuests' => 'required|integer|min:1',
@@ -38,10 +38,10 @@ class StoreReservationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'customerId.required' => 'El cliente es obligatorio',
-            'customerId.exists' => 'El cliente seleccionado no existe',
-            'roomId.required' => 'La habitación es obligatoria',
-            'roomId.exists' => 'La habitación seleccionada no existe',
+            'customer.required' => 'El cliente es obligatorio',
+            'customer.exists' => 'El cliente seleccionado no existe',
+            'room.required' => 'La habitación es obligatoria',
+            'room.exists' => 'La habitación seleccionada no existe',
             'checkInDate.required' => 'La fecha de entrada es obligatoria',
             'checkInDate.date' => 'La fecha de entrada debe ser una fecha válida',
             'checkInDate.date_format' => 'La fecha de entrada debe tener el formato Y-m-d',

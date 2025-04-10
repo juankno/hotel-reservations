@@ -9,16 +9,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [App\Http\Controllers\AuthController::class, 'user']);
     Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
-    Route::apiResource('reservations', App\Http\Controllers\ReservationController::class)->only([
-        'index',
-        'show',
-        'store',
-    ]);
-
     Route::apiResources([
         'rooms' => App\Http\Controllers\RoomController::class,
         'customers' => App\Http\Controllers\CustomerController::class,
         'customer-types' => App\Http\Controllers\CustomerTypeController::class,
         'room-types' => App\Http\Controllers\RoomTypeController::class,
+        'reservations'=> App\Http\Controllers\ReservationController::class,
     ]);
 });
