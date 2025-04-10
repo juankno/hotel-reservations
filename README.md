@@ -24,7 +24,7 @@ Sigue los pasos a continuación para configurar el proyecto en tu entorno local:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/hotel-reservations.git
+   git clone https://github.com/juankno/hotel-reservations.git
    cd hotel-reservations
    ```
 

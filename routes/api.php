@@ -18,5 +18,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'rooms' => App\Http\Controllers\RoomController::class,
         'customers' => App\Http\Controllers\CustomerController::class,
         'customer-types' => App\Http\Controllers\CustomerTypeController::class,
+        'room-types' => App\Http\Controllers\RoomTypeController::class,
     ]);
 });

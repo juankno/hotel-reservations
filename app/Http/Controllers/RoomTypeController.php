@@ -2,22 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoomType;
+use App\Http\Requests\FilterRoomTypeRequest;
 use App\Http\Requests\StoreRoomTypeRequest;
 use App\Http\Requests\UpdateRoomTypeRequest;
+use App\Http\Resources\RoomTypeResource;
+use App\Repositories\Contracts\RoomTypeRepositoryInterface;
+use Illuminate\Http\Response;
 
 class RoomTypeController extends Controller
 {
+    protected $roomTypeRepository;
+
+    public function __construct(RoomTypeRepositoryInterface $roomTypeRepository)
+    {
+        $this->roomTypeRepository = $roomTypeRepository;
+    }
+
     /**
      * Listar tipos de habitación
      *
      * Recupera una colección de todos los tipos de habitación disponibles.
      *
-     * @return \Illuminate\Http\Resources\Json\ResourceCollection
+     * @param \App\Http\Requests\FilterRoomTypeRequest $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(FilterRoomTypeRequest $request)
     {
-        //
+        $roomTypes = $this->roomTypeRepository->all($request->validated());
+        return RoomTypeResource::collection($roomTypes);
     }
 
     /**
@@ -26,11 +38,12 @@ class RoomTypeController extends Controller
      * Registra un nuevo tipo de habitación en la base de datos.
      *
      * @param  \App\Http\Requests\StoreRoomTypeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\RoomTypeResource
      */
     public function store(StoreRoomTypeRequest $request)
     {
-        //
+        $roomType = $this->roomTypeRepository->create($request->validated());
+        return new RoomTypeResource($roomType);
     }
 
     /**
@@ -38,12 +51,13 @@ class RoomTypeController extends Controller
      *
      * Muestra detalles de un tipo de habitación específico.
      *
-     * @param  \App\Models\RoomType  $roomType
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \App\Http\Resources\RoomTypeResource
      */
-    public function show(RoomType $roomType)
+    public function show($id)
     {
-        //
+        $roomType = $this->roomTypeRepository->find($id);
+        return new RoomTypeResource($roomType);
     }
 
     /**
@@ -52,12 +66,13 @@ class RoomTypeController extends Controller
      * Modifica los detalles de un tipo de habitación existente.
      *
      * @param  \App\Http\Requests\UpdateRoomTypeRequest  $request
-     * @param  \App\Models\RoomType  $roomType
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \App\Http\Resources\RoomTypeResource
      */
-    public function update(UpdateRoomTypeRequest $request, RoomType $roomType)
+    public function update(UpdateRoomTypeRequest $request, $id)
     {
-        //
+        $roomType = $this->roomTypeRepository->update($id, $request->validated());
+        return new RoomTypeResource($roomType);
     }
 
     /**
@@ -65,11 +80,19 @@ class RoomTypeController extends Controller
      *
      * Elimina un tipo de habitación de la base de datos.
      *
-     * @param  \App\Models\RoomType  $roomType
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(RoomType $roomType)
+    public function destroy($id)
     {
-        //
+        try {
+            $this->roomTypeRepository->delete($id);
+            return response()->json(['message' => 'Tipo de habitación eliminado con éxito.'], Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 }

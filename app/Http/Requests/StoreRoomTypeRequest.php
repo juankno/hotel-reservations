@@ -11,7 +11,7 @@ class StoreRoomTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreRoomTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255|unique:App\Models\RoomType,name',
+            'description' => 'nullable|string|max:1000',
+            'price' => 'required|numeric|min:0',
+            'capacity' => 'required|integer|min:1',
+            'isAvailable' => 'nullable|boolean',
+            'image' => 'nullable|string',
         ];
     }
 }

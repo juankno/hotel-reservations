@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRoomTypeRequest extends FormRequest
+class FilterRoomTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,11 @@ class UpdateRoomTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:App\Models\RoomType,name,' . $this->route('id'),
-            'description' => 'nullable|string|max:1000',
-            'price' => 'required|numeric|min:0',
-            'capacity' => 'required|integer|min:1',
-            'isAvailable' => 'nullable|boolean',
-            'image' => 'nullable|string',
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string|max:1000',
+            'price' => 'sometimes|numeric|min:0',
+            'capacity' => 'sometimes|integer|min:1',
+            'isAvailable' => 'sometimes|boolean',
         ];
     }
 }

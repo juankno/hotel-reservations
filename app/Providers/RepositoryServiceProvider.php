@@ -27,10 +27,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ReservationRepositoryInterface::class,
             \App\Repositories\ReservationRepository::class
         );
-        // $this->app->bind(
-        //     \App\Repositories\Contracts\RoomTypeRepositoryInterface::class,
-        //     \App\Repositories\RoomTypeRepository::class
-        // );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\RoomTypeRepositoryInterface::class,
+            \App\Repositories\RoomTypeRepository::class
+        );
     }
 
     public function boot()
