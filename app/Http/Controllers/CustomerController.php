@@ -2,49 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Http\Requests\FilterCustomerRequest;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Resources\CustomerResource;
+use App\Repositories\Contracts\CustomerRepositoryInterface;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
+    public function __construct(protected CustomerRepositoryInterface $customerRepository) {}
+
     /**
-     * Display a listing of the resource.
+     * List all customers.
+     *
+     * Retrieves a collection of customers.
+     *
+     * @return \Illuminate\Http\Resources\Json\ResourceCollection
      */
-    public function index()
+    public function index(FilterCustomerRequest $request)
     {
-        //
+        $customers = $this->customerRepository->all($request->validated());
+        return CustomerResource::collection($customers);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a customer.
+     *
+     * Stores a new customer in the database.
+     *
+     * @param  \App\Http\Requests\StoreCustomerRequest  $request
+     * @return \App\Http\Resources\CustomerResource
      */
     public function store(StoreCustomerRequest $request)
     {
-        //
+        $customer = $this->customerRepository->create($request->validated());
+        return new CustomerResource($customer);
     }
 
     /**
-     * Display the specified resource.
+     * Show a customer.
+     *
+     * Displays details of a specific customer.
+     *
+     * @param  int  $id
+     * @return \App\Http\Resources\CustomerResource
      */
-    public function show(Customer $customer)
+    public function show(int $id)
     {
-        //
+        $customer = $this->customerRepository->find($id);
+        return new CustomerResource($customer);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a customer.
+     *
+     * Modifies details of an existing customer.
+     *
+     * @param  \App\Http\Requests\UpdateCustomerRequest  $request
+     * @param  int  $id
+     * @return \App\Http\Resources\CustomerResource
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, int $id)
     {
-        //
+        $customer = $this->customerRepository->update($id, $request->validated());
+        return new CustomerResource($customer);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a customer.
+     *
+     * Removes a customer from the database.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Customer $customer)
+    public function destroy(int $id)
     {
-        //
+        $this->customerRepository->delete($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Customer deleted successfully',
+        ], Response::HTTP_NO_CONTENT);
     }
 }

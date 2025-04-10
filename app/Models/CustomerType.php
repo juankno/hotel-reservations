@@ -13,6 +13,7 @@ class CustomerType extends Model
     protected $fillable = [
         'name',
         'description',
+        'discount_percentage',
     ];
 
     public function customers()
