@@ -77,7 +77,7 @@ Sigue los pasos a continuación para configurar el proyecto en tu entorno local:
 
 ## Documentación
 
-Puedes encontrar la documentación de la API en el siguiente enlace:
+Una vez la aplicación esté disponible, Puedes encontrar la documentación de la API en el siguiente enlace:
 [http://localhost:8000/docs/api](http://localhost:8000/docs/api)
 
 ## Características
