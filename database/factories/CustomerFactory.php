@@ -17,7 +17,13 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
+            'address' => $this->faker->address(),
+            'rut' => $this->faker->unique()->numerify('########-#'),
+            'customer_type_id' => \App\Models\CustomerType::inRandomOrder()->first(),
         ];
     }
 }
