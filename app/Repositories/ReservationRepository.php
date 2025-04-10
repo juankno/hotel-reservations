@@ -22,7 +22,7 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function all(array $filters = [])
     {
-        return $this->reservation::with(['customer', 'room', 'reservationStatus'])
+        return $this->reservation::with(['customer.customerType', 'room.roomType', 'reservationStatus'])
             ->applyFilters($filters)
             ->paginate(request('per_page', 10));
     }
@@ -36,7 +36,7 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function find($id)
     {
-        $reservation = $this->reservation->with(['customer', 'room', 'reservationStatus'])->find($id);
+        $reservation = $this->reservation->with(['customer.customerType', 'room.roomType', 'reservationStatus'])->find($id);
 
         if (!$reservation) {
             throw new ModelNotFoundException("Reservation with ID {$id} not found");
@@ -73,7 +73,7 @@ class ReservationRepository implements ReservationRepositoryInterface
         }
 
         $model->update($data);
-        return $model->fresh(['customer', 'room', 'reservationStatus']);
+        return $model->fresh(['customer.customerType', 'room.roomType', 'reservationStatus']);
     }
 
     /**
