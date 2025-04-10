@@ -126,4 +126,34 @@ class ReservationController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    /**
+     * Eliminar reservaciones por ID de habitación
+     *
+     * Elimina todas las reservaciones asociadas a una habitación específica.
+     *
+     * @param  int  $roomId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyByRoomId(int $roomId)
+    {
+        try {
+            $deletedCount = $this->reservationRepository->deleteByRoomId($roomId);
+
+            return response()->json([
+                'success' => true,
+                'message' => "$deletedCount reservaciones eliminadas exitosamente",
+            ], Response::HTTP_NO_CONTENT);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontraron reservaciones para la habitación especificada',
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
 }

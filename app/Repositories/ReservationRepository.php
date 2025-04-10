@@ -162,14 +162,38 @@ class ReservationRepository implements ReservationRepositoryInterface
      * @return bool
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function delete($id)
+    public function delete(int $id, array $data = [])
     {
-        $model = $this->reservation->find($id);
+        $reservation = $this->reservation->find($id);
 
-        if (!$model) {
-            throw new ModelNotFoundException("Reservation with ID {$id} not found");
+        if (!$reservation) {
+            throw new ModelNotFoundException("La reserva con ID {$id} no fue encontrada");
         }
 
-        return $model->delete();
+        if (in_array($reservation->reservation_status_id, [2, 3])) { // Estados en progreso
+            throw new \Exception("No se puede eliminar una reservación en progreso.");
+        }
+
+        return $reservation->delete();
+    }
+
+    /**
+     * Eliminar reservaciones por ID de habitación.
+     *
+     * @param  int  $roomId
+     * @return int  Número de reservaciones eliminadas.
+     * @throws \Exception
+     */
+    public function deleteByRoomId(int $roomId): int
+    {
+        $reservations = $this->reservation->where('room_id', $roomId)->get();
+
+        foreach ($reservations as $reservation) {
+            if (in_array($reservation->reservation_status_id, [2, 3])) { // Estados en progreso
+                throw new \Exception("No se pueden eliminar reservaciones en progreso para la habitación con ID {$roomId}.");
+            }
+        }
+
+        return $this->reservation->where('room_id', $roomId)->delete();
     }
 }
