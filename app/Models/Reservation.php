@@ -41,4 +41,26 @@ class Reservation extends Model
     {
         return $this->belongsTo(ReservationStatus::class);
     }
+
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+        if (isset($filters['customerId'])) {
+            $query->where('customer_id', $filters['customerId']);
+        }
+
+        if (isset($filters['roomId'])) {
+            $query->where('room_id', $filters['roomId']);
+        }
+
+        if (isset($filters['checkInDate'])) {
+            $query->whereDate('check_in_date', $filters['checkInDate']);
+        }
+
+        if (isset($filters['checkOutDate'])) {
+            $query->whereDate('check_out_date', $filters['checkOutDate']);
+        }
+
+        return $query;
+    }
 }
